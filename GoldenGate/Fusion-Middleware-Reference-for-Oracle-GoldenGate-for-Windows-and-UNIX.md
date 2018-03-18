@@ -25,7 +25,7 @@
 ## 1.1 Oracle GoldenGate 命令摘要
 >本部分总结了GGSCI命令并包含以下内容使用
 
-* Summary of Extract Commands
+* ==Summary of Extract Commands==
 * Summary of Replicat Commands
 * Summary of the ER Command
 * Summary of Wallet Commands
@@ -41,7 +41,84 @@
 * Summary of Oracle GoldenGate Automatic Heartbeat Commands
 * Summary of Miscellaneous Oracle GoldenGate Commands
 
+### 1.1.1 Summary of Manager Commands
+>&emsp;&emsp;使用Manager命令来控制Manager进程。 Manager是Oracle GoldenGate的父进程，负责管理其进程和文件，资源，用户界面以及报告阈值和错误。
 
+
+| 命令 | 描述 |
+:---:|:---:
+|	INFO MANAGER	|	返回有关Manager端口和子进程的信息|
+|	SEND MANAGER	|	返回有关正在运行的Manager进程的信息	|
+|	START MANAGER	|	启动Manager进程	|
+|	STATUS MANAGER	|	返回Manager进程的状态	|
+|	STOP MANAGER	|	停止Manager进程	|
+
+### 1.1.2 Summary of Extract Commands
+
+| 命令        | 描述 |
+| ----------- | ---- |
+| ADD EXTRACT | 创建一个 Extract 抽取进程组      |
+|             |      |
+
+### 1.1.3 Summary of Replicat Commands
+### 1.1.4 Summary of the ER Commands
+### 1.1.5 Summary of Wallet Commands
+### 1.1.6 Summary of Credential Store Commands
+### 1.1.7 Summary of Trail Commands
+### 1.1.8 Summary of Parameter Commands
+### 1.1.9 Summary of Database Commands
+### 1.1.10 Summary of Trandata Commands
+### 1.1.11 Summary of Checkpoint Table Commands
+### 1.1.12 Summary of Oracle Trace Table Commands
+### 1.1.13 Summary of Data Store Commands
+### 1.1.14 Summary of Monitor JAgent Commands
+### 1.1.15 Summary of Automatic Heartbeat Commands
+### 1.1.16 Summary of Miscellaneous Commands
+
+## 1.2 INFO MAGAGER
+## 1.3 SEND MAGAGER
+## 1.4 START MAGAGER
+## 1.5 STATUS MAGAGER
+## 1.6 STOP MAGAGER
+## 1.7 ADD EXTRACT
+## 1.8 ALTER EXTRACT
+## 1.9 CLEANUP EXTRACT
+## 1.10 DELETE EXTRACT
+## 1.11 INFO EXTRACT
+## 1.12 KILL EXTRACT
+## 1.13 LAG EXTRACT
+## 1.14 REGISTER EXTRACT
+## 1.15 SEND EXTRACT
+## 1.16 START EXTRACT
+## 1.17 STATS EXTRACT
+## 1.18 STATUS EXTRACT
+## 1.19 STOP EXTRACT
+## 1.20 UNREGISTER EXTRACT
+## 1.21 ADD REPLICAT
+## 1.22 ALTER REPLICAT
+## 1.23 CLEANUP REPLICAT
+## 1.24 DELETE REPLICAT
+## 1.25 INFO REPLICAT
+## 1.26 KILL REPLICAT
+## 1.27 LAG REPLICAT
+## 1.28 REGISTER REPLICAT
+## 1.29 SEND REPLICAT
+## 1.30 START REPLICAT
+## 1.31 STATS REPLICAT
+## 1.32 STATUS REPLICAT
+## 1.33 STOP REPLICAT
+## 1.34 SYNCHROIZE REPLICAT
+## 1.35 UNREGISTER REPLICAT
+## 1.36 ER
+## 1.37 CREATE WALLET
+## 1.38 OPEN WALLET
+## 1.39 PURGE WALLET
+## 1.40 ADD MASTERKEY
+## 1.41 INFO MASTERKEY
+## 1.42 ADD CREDENTIALSTORE
+## 1.43 PURGE WALLET
+## 1.44 PURGE WALLET
+## 1.45 PURGE WALLET
 
 
 # 2 Oracle GoldenGate Native 命令

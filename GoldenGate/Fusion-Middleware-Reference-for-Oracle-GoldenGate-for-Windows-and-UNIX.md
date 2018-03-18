@@ -57,8 +57,19 @@
 
 | 命令        | 描述 |
 | ----------- | ---- |
-| ADD EXTRACT | 创建一个 Extract 抽取进程组      |
-|             |      |
+| ADD EXTRACT | 创建  Extract Group  |
+| ALTER EXTRACT | 修改 Extract Group      |
+| CLEANUP EXTRACT | 删除 Extract Group 的运行记录      |
+| DELETE EXTRACT | 删除  Extract Group  |
+| KILL EXTRACT | 强制结束 Extract Group  |
+| LAG EXTRACT | 精确获取 Extract Group 的抽取记录的时间差    |
+| REGISTER EXTRACT | 在数据库中注册 Extract Group    |
+| SEND EXTRACT | 获取  Extract Group 信息     |
+| START EXTRACT | 开始   Extract Group     |
+| STATS EXTRACT | 返回 Extract 处理的信息      |
+| STATUS EXTRACT | 获取 Extract Group 的状态      |
+| STOP EXTRACT | 停止 Extract Group      |
+| UNREGISTER EXTRACT | 在数据库中取消注册 Extract Group      |
 
 ### 1.1.3 Summary of Replicat Commands
 ### 1.1.4 Summary of the ER Commands

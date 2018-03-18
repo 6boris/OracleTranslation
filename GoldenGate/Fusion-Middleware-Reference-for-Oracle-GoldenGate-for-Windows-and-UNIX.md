@@ -87,6 +87,24 @@
 ### 1.1.16 Summary of Miscellaneous Commands
 
 ## 1.2 INFO MAGAGER
+>&emsp;&emsp;使用INFO MANAGER（或INFO MGR）确定Manager进程是否正在运行以及进程ID。 如果管理器正在运行，则会显示端口号。 该命令是STATUS MANAGER的别名。
+
+* 语法
+```sql?linenums
+SEND MANAGER
+[CHILDSTATUS [DEBUG]]
+[GETPORTINFO [DETAIL]
+[GETPURGEOLDEXTRACTS]
+```
+
+
+```sql
+SEND MANAGER
+[CHILDSTATUS [DEBUG]]
+[GETPORTINFO [DETAIL]
+[GETPURGEOLDEXTRACTS]
+```
+
 ## 1.3 SEND MAGAGER
 ## 1.4 START MAGAGER
 ## 1.5 STATUS MAGAGER

@@ -90,14 +90,15 @@
 >&emsp;&emsp;使用INFO MANAGER（或INFO MGR）确定Manager进程是否正在运行以及进程ID。 如果管理器正在运行，则会显示端口号。 该命令是STATUS MANAGER的别名。
 
 * 语法
-```sql?linenums
-SEND MANAGER
-[CHILDSTATUS [DEBUG]]
-[GETPORTINFO [DETAIL]
-[GETPURGEOLDEXTRACTS]
+```sql
+INFO MANAGER
+INFO MGR
 ```
 
+## 1.3 SEND MAGAGER
+>&emsp;&emsp;使用SEND MANAGER检索活动Manager进程的状态或检索Manager参数文件中配置的动态端口信息。
 
+* **语法**
 ```sql
 SEND MANAGER
 [CHILDSTATUS [DEBUG]]
@@ -105,7 +106,57 @@ SEND MANAGER
 [GETPURGEOLDEXTRACTS]
 ```
 
-## 1.3 SEND MAGAGER
+>**CHILDSTATUS [DEBUG]**
+检索由Manager启动的进程的状态信息。 DEBUG返回分配给进程的端口号。
+**GETPORTINFO [DETAIL]**
+默认情况下，检索已分配给进程及其相应进程ID的当前端口列表。 DETAIL提供使用DYNAMICPORTLIST参数定义的所有端口的列表。
+**GETPURGEOLDEXTRACTS**
+显示有关使用Manager参数文件中的PURGEOLDEXTRACTS参数设置的跟踪维护规则的信息。
+
+* **案列**
+
+* 案列1
+>发送管理器CHILDSTATUS DEBUG返回类似于以下内容的子进程状态。基本的CHILDSTATUS选项返回相同的显示，不包含端口列。
+
+```sql
+ID Group Process Retry Retry Time Start Time Port
+1 ORAEXT 2400 0 None 2011/01/21 21:08:32 7840
+2 ORAEXT 2245 0 None 2011/01/23 21:08:33 7842
+```
+
+* 案列2
+>**SEND MANAGER GETPORTINFO DETAIL** 返回类似于以下内容的动态端口列表。
+```sql
+Entry Port Error Process Assigned Program
+0 8000 0 2387 2011-01-01 10:30:23
+1 8001 0
+2 8002 0
+```
+
+* 案列3
+>**SEND MANAGER GETPURGEOLDEXTRACTS** 会输出以下的类似信息
+
+```sql
+PurgeOldExtracts Rules
+Fileset MinHours MaxHours MinFiles MaxFiles UseCP
+S:\GGS\DIRDAT\EXTTRAIL\P4\* 0 0 1 0 Y
+S:\GGS\DIRDAT\EXTTRAIL\P2\* 0 0 1 0 Y
+S:\GGS\DIRDAT\EXTTRAIL\P1\* 0 0 1 0 Y
+S:\GGS\DIRDAT\REPTRAIL\P4\* 0 0 1 0 Y
+S:\GGS\DIRDAT\REPTRAIL\P2\* 0 0 1 0 Y
+S:\GGS\DIRDAT\REPTRAIL\P1\* 0 0 1 0 Y
+OK
+Extract Trails
+Filename Oldest_Chkpt_Seqno IsTable IsVamTwoPhaseCommit
+S:\GGS\8020\DIRDAT\RT 3 0 0
+S:\GGS\8020\DIRDAT\REPTRAIL\P1\RT 13 0 0
+S:\GGS\8020\DIRDAT\REPTRAIL\P2\RT 13 0 0
+S:\GGS\8020\DIRDAT\REPTRAIL\P4\RT 13 0 0
+S:\GGS\8020\DIRDAT\EXTTRAIL\P1\ET 14 0 0
+S:\GGS\8020\DIRDAT\EXTTRAIL\P2\ET 14 0 0
+S:\GGS\8020\DIRDAT\EXTTRAIL\P4\ET 14 0 0
+```
+
 ## 1.4 START MAGAGER
 ## 1.5 STATUS MAGAGER
 ## 1.6 STOP MAGAGER

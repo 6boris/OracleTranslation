@@ -246,34 +246,124 @@ ADD EXTRACT group_name
 [, DESC 'description']
 ```
 >**group_name**
+>提取组的名称。 提取组的名称最多可包含8个字符。 有关组命名约定，请参阅管理适用于Windows和UNIX的Oracle GoldenGate。
+
 >**SOURCEISTABLE**
+创建一个Extract任务，该任务使用Oracle GoldenGate直接装入方法或直接批量加载到SQL * Loader方法从数据库中提取初始加载的整个记录。 如果未指定SOURCEISTABLE，则ADD EXTRACT将创建联机更改同步过程，并且必须指定其他数据源选项之一。 使用SOURCEISTABLE时，请勿指定任何服务选项。 任务参数必须在参数文件中指定。 有关初始加载方法的更多信息，请参阅管理用于Windows和UNIX的Oracle GoldenGate。
+
 >**TRANLOG [bsds_name | LRI_NUMBER]**
+指定事务日志作为数据源。 对于Informix和Teradata以外的所有数据库使用此选项。 TRANLOG需要BEGIN选项。 （z / OS上的DB2）您可以在z / OS系统上使用DB2的bsds_name选项来指定事务日志的引导程序数据集文件名，尽管它不是必需的并且未被使用。 您不需要更改现有的TRANLOG参数。 （DB2 LUW）您可以使用DB2 LUW系统的LRI_NUMBER选项为检查点事务日志指定LRI记录值。 （Oracle）从Oracle标准版或企业版11.2.0.3开始，此模式称为经典捕获模式。 Extract直接读取Oracle重做日志。 有关备用配置，请参阅INTEGRATED TRANLOG。
+
 >**INTEGRATED TRANLOG**
+（Oracle）在集成捕获模式下添加此提取。 在此模式下，Extract与数据库登录服务器集成，后者将逻辑更改记录（LCR）直接传递到提取。 Extract不会读取重做日志。 在使用INTEGRATEDTRANLOG之前，请使用REGISTER EXTRACT命令。 有关集成捕获的信息，请参阅安装和配置Oracle GoldenGate for Oracle数据库。
+
 >**VAM**
+（Informix，MySQL和Teradata）指定称为供应商的Extract API 访问模块（VAM）将用于将更改数据传输到提取。
+
 >**EXTFILESOURCE file_name**
+指定一个提取文件作为数据源。 将该选项与辅助抽取组（数据泵）一起使用，充当主要抽取组和目标系统之间的中介。 对于file_name，请指定文件的相对路径或完全限定路径名称，例如dirdat\extfile或c\ggs\dirdat\extfile。
+
 >**EXTTRAILSOURCE trail_name**
->VAMTRAILSOURCE VAM_trail_name
->BEGIN {NOW | yyyy-mm-dd[ hh:mi:[ss[.cccccc]]]}
->yyyy-mm-dd[ hh:mi:[ss[.cccccc]]]
->EXTSEQNO sequence_number, EXTRBA relative_byte_address
->EXTRBA relative_byte_address
->EOF
->LSN value
+指定一个路径作为数据源。 将该选项与辅助抽取组（数据泵）一起使用，充当主要抽取组和目标系统之间的中介。 对于trail_name，请指定路径的相对路径名或完全限定路径名，例如dirdat\aa或c：\ggs\dirdat\aa。
+
+>**VAMTRAILSOURCE VAM_trail_name**
+（Teradata）指定VAM路径。 使用Teradata最大保护模式时使用此选项。 对于VAM_trail_name，请指定主Extract组正在写入的VAM路径的相对路径名或完全限定路径名。 使用VAM-sort Extract组读取VAM路径并将数据发送到目标系统。
+
+>**BEGIN {NOW | yyyy-mm-dd[ hh:mi:[ss[.cccccc]]]}**
+>指定数据源中开始处理的时间戳
+>> **NOW**
+>> 对于除DB2 LUW以外的所有数据库，NOW指定发出ADD EXTRACT命令的时间。
+>> 对于DB2 LUW，NOW指定START EXTRACT生效的时间。 它
+定位到大致与日期和时间匹配的第一条记录。 这是因为包含时间戳的唯一日志记录是提交和中止事务记录，因此只能根据相关的时间戳来计算起始位置。 这是Oracle GoldenGate使用的API的限制。
+>除了在ADD EXTRACT语句之前绕过捕获到轨迹的数据外，不要使用NOW作为数据泵提取。
+
+>> **yyyy-mm-dd[ hh:mi:[ss[.cccccc]]]**
+
+
+>**EXTSEQNO sequence_number, EXTRBA relative_byte_address**
+适用于Oracle的经典捕获模式中的主要提取，NonStop SQL / MX的主要提取，以及数据泵提取。 不支持集成模式下的Oracle Extract。 指定以下任一项：
+>> 1.该日志中的Oracle重做日志和RBA的序号，开始捕获数据。
+>> 2.NonStop SQL / MX TMF审计跟踪序列号和该文件中的相对字节地址，以开始捕获数据。 这些一起指定了TMF主审计追踪（MAT）中的位置。
+>> 3.开始捕获数据的路径中的文件（用于数据泵）。 指定序列号，但不是用于填充的任何零。 例如，如果跟踪文件是c：\ ggs \ dirdat \ aa000026，则可以指定EXTSEQNO 26.默认情况下，处理从跟踪开始处开始，除非使用此选项。
+
+
+>**EXTRBA relative_byte_address**
+适用于z / OS上的DB2。 指定开始捕获数据的事务日志中的相对字节地址。 所需的格式是0Xnnn，其中nnn是1到20位十六进制数（第一个字符是数字零，第二个字符可以是大写或小写字母x）。
+
+>**EOF**
+适用于SQL Server和DB2 for i。 将处理配置为在下一条记录将写入的日志文件（或日志）结尾处开始。 任何活动的交易都不会被捕获。
+
+>**LSN value**
+适用于Informix和SQL Server。 指定开始捕获数据的事务日志中的LSN。 指定的LSN应该存在于日志备份或在线日志中。 此选项的别名是EXTLSN。
+>对于SQL Server，LSN由其中的一个组成，具体取决于数据库如何返回它：
+>>  1.冒号分隔的十六进制字符串（8：8：4）填充了前导零和0X前缀，如0X00000d7e：0000036b：01bd
+>>  2.冒号分隔的十进制字符串（10：10：5）用前导零填充，如0000003454：0000000875：00445
+>>   3.C用0X前缀冒号分隔的十六进制字符串，不带前导零，如0Xd7e：36b：1bd
+>>   4.不带前导零的冒号分隔的十进制字符串，如3454：875：445所示
+>>   5.十进制字符串，如3454000000087500445
+
+>在前面的例子中，第一个值是虚拟日志文件号，第二个是虚拟日志中的段号，第三个是条目号。 您可以使用如下查询来查找指定事务的LSN：
+```sql
+SELECT [  Current LSN], [Transaction Name], [Begin Time]
+    FROM fn_dblog(null, null)
+  WHERE Operation = 'LOP_BEGIN_XACT'
+      AND [Begin Time] >= 'time';
+```
+>您在查询中应使用的时间格式应类似于'2015/01/30 12：00：00.000'，而不是'2015-01-30 12：00：00.000'。
+您可以确定特定事务开始的时间，然后查找相关的LSN，然后在具有相同开始时间的两个事务之间进行定位。
+
 >EOF | LSN value
+对DB2 LUW有效。 在Extract启动时指定事务日志中的起始位置。
+
 >PAGE data_page, ROW row_ID
+对Sybase有效。 指定数据页面和行，它们一起定义Sybase事务日志中的起始位置。 由于开始位置必须是开始于最接近或位于指定PAGE和ROW的事务的第一条记录，因此提取报告将显示以下位置：
+>1.**Positioning To**是用PAGE和ROW指定的记录的位置。
+2.**Positioning To** 是在第一个BEGIN记录在或之后找到的Positioning To定位。
+3.**First Record Position** 是第一个有效记录在或之后 Positioned To定位.
+
 >SEQNO sequence_number
+适用于DB2 for i。 在系统序列号（或长度最多为20位数的十进制数）时或之后开始捕获。
+
 >SCN value
+Oracle系统更改号码（SCN）。 此选项对于经典捕捉和集成模式下的提取均有效。 对于集成模式下的Extract，SCN值必须大于Extract在数据库中注册的SCN
+
 >PARAMS file_name
+指定Oracle GoldenGate目录中缺省dirprm以外的位置中的Extract参数文件的完整路径名。
+
 >REPORT file_name
+指定Extract报告文件的完整路径名称，而不是Oracle GoldenGate目录中默认的dirrpt位置。
+
 >THREADS n
->PASSIVE
->DESC 'description'
->CPU number
->PRI number
->HOMETERM device_name
->PROCESSNAME process_name
->SOCKSPROXY {host_name | IP_address}[:port] [PROXYCSALIAS credential_store_alias [PROXYCSDOMAIN credential_store_domain]
->RMTNAME passive_extract_name
+适用于Oracle经典捕捉模式。 指定提取维护以读取重做日志的生产者线程的数量。
+>在Oracle RAC配置中需要指定生产者线程的数量。 这些是提取线程，用于读取各个RAC节点上的不同重做日志。 该值必须与要从中捕获重做数据的节点数相同。
+
+
+>**PASSIVE**
+指定此提取组以被动模式运行，并且只能通过在目标系统上启动或停止别名提取组来启动和停止。 源目标连接将不由该组建立，而由目标的别名提取建立。
+>该选项可用于常规提取组或数据泵提取组。 只应由源系统上的任何一个提取者使用，该提取者将通过网络将数据发送到目标上的远程路径。 有关如何配置被动和别名解压缩组的说明，请参阅管理用于Windows和UNIX的Oracle GoldenGate。
+
+
+>**DESC 'description'**
+指定组的描述，例如“在Serv1上提取account_tab”。 用单引号括起描述。 您可以使用缩写关键字DESC或完整的描述
+
+>**CPU number**
+适用于SQL / MX。 指定要用于该过程的CPU的编号。 有效值为数字0 - 15，缺省值为-1，分配1比上次启动的Manager高1。
+
+>**PRI number**
+适用于SQL / MX。 指定提取进程优先级。 有效值为数字1 - 199，默认值为-1，与经理进程优先级相同。
+
+>**HOMETERM device_name**
+适用于SQL / MX。 指定要使用的设备的名称，并且必须是终端或进程。 它可以输入Guardian $或OSS / G / xxxxx格式。 未定义$ zhome时，默认值为$ zhome或当前会话HOMETERM
+
+>**PROCESSNAME process_name**
+适用于SQL / MX。 指定过程名称，最多5个字符的字母数字字符串，可以输入Guardian $或OSS / G / xxxxx格式。 缺省值是系统生成的进程名称。
+
+>**SOCKSPROXY {host_name | IP_address}[:port] [PROXYCSALIAS credential_store_alias [PROXYCSDOMAIN credential_store_domain]**
+用于别名提取。 指定代理服务器的DNS主机名或IP地址。 如果您的DNS服务器无法访问，您可以使用其中一个来定义主机，但必须使用IP地址。 如果您使用的是IP地址，请使用IPv6或IPv4映射地址，具体取决于目标系统的堆栈。 您必须指定PROXYCSALIAS。 另外，您可以指定要使用的端口以及凭证存储域。
+
+>**RMTNAME passive_extract_name**
+用于别名提取。 指定被动提取名称，如果不同于别名提取的名称.
+
 
 * **案列**
 

@@ -276,8 +276,8 @@ ADD EXTRACT group_name
 >> 对于DB2 LUW，NOW指定START EXTRACT生效的时间。 它
 定位到大致与日期和时间匹配的第一条记录。 这是因为包含时间戳的唯一日志记录是提交和中止事务记录，因此只能根据相关的时间戳来计算起始位置。 这是Oracle GoldenGate使用的API的限制。
 >除了在ADD EXTRACT语句之前绕过捕获到轨迹的数据外，不要使用NOW作为数据泵提取。
-
 >> **yyyy-mm-dd[ hh:mi:[ss[.cccccc]]]**
+>> 
 
 
 >**EXTSEQNO sequence_number, EXTRBA relative_byte_address**
@@ -465,6 +465,7 @@ ADD EXTRACT ext exttcp, CPU 3, PRI 148, HOMETERM $ZTN0.#PTHBP32, PROCESSNAME $ex
 ```sql
 ADD EXTRACT extcust, TRANLOG LRI 8066.322711
 ```
+
 
 ## 1.8 ALTER EXTRACT
 ## 1.9 CLEANUP EXTRACT

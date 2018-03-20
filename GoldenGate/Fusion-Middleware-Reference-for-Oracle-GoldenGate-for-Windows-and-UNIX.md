@@ -504,14 +504,14 @@ ADD EXTRACT extcust, TRANLOG LRI 8066.322711
 ## 1.42 ADD CREDENTIALSTORE
 ## 1.43 PURGE WALLET
 ## 1.44 PURGE WALLET
-## 1.45 PURGE WALLET
+
 
 
 # 2 Oracle GoldenGate Native 命令
 # 3 Oracle GoldenGate 参数
 # 4 Collector Parameters
 # 5 Column Conversion Functions
-# 6 User Exit Functions
+# 6 User Exit Functions 
 
 
 
